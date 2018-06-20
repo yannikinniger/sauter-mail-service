@@ -9,5 +9,14 @@ data class Address(
         val street: String,
         val city: String,
         val zip: Int
-)
+) {
+
+    constructor(
+            company: String,
+            street: String,
+            city: String,
+            zip: Int
+    ) : this(company, null, street, city, zip)
+
+}
 
