@@ -1,0 +1,7 @@
+.DS_Store
+.idea/
+out/
+workspace.xml
+.gradle/
+build/
+*.iml
