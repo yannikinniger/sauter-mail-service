@@ -9,7 +9,7 @@ import org.junit.Test
 class MailerTest {
 
     private val address = Address("Test AG", null, "Teststrasse", "Test City", 1000)
-    private val order = Order(address, address, 1, "DN10", 1)
+    private val order = Order(address, address, 1, "DN10", 1, 1, "article")
 
     @Test
     fun shouldThrowExceptionOnInvalidEmail() {

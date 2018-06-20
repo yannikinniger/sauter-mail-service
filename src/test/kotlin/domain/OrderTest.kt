@@ -12,8 +12,8 @@ internal class OrderTest {
 
     @Test(expected = IllegalArgumentException::class)
     fun shouldThrowExceptionOnNegativeQuantity() {
-        val quality = -1
-        Order(address, address, 1, "DN20", quality)
+        val quantity = -1
+        Order(address, address, 1, "DN20", quantity, 1, "article")
     }
 
     @Test(expected = IllegalArgumentException::class)
