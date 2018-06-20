@@ -28,4 +28,13 @@ class MailerTest {
         } catch (e: IllegalArgumentException ) { /* expected exception */ }
     }
 
+    @Test
+    fun shouldSendEmailWithoutError() {
+        val mailer = Mailer()
+        val mailAddress = "yannik.inniger@gmail.com"
+        val result = mailer.sendEmail(mailAddress, "subject", order)
+
+        assertTrue(result)
+    }
+
 }

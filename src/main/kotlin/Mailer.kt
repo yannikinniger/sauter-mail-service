@@ -1,8 +1,8 @@
 import domain.Order
+import domain.fillTemplate
 import org.apache.commons.mail.DefaultAuthenticator
 import org.apache.commons.mail.EmailException
 import org.apache.commons.mail.HtmlEmail
-import org.celtric.kotlin.html.*
 import java.util.regex.Pattern
 
 /**
@@ -10,13 +10,15 @@ import java.util.regex.Pattern
  */
 class Mailer {
 
-    private val userName = System.getenv("USER_NAME") ?: ""
-    private val password = System.getenv("PASSWORD") ?: ""
+    private val userName = System.getenv("ZOHO_USER_NAME") ?: ""
+    private val password = System.getenv("ZOHO_PASSWORD") ?: ""
 
     fun sendEmail(recipient: String, subject: String, order: Order): Boolean {
         if (recipient.isEmailValid()) {
             try {
-                createEmail(recipient, subject).send()
+                createEmail(recipient, subject)
+                        .setHtmlMsg(fillTemplate(order))
+                        .send()
             } catch (e: EmailException) {
                 return false
             }
@@ -49,32 +51,6 @@ class Mailer {
         }
     }
 
-    private fun createMessage(order: Order): String {
-        return div {
-            h1("Vielen Dank für Ihre Bestellung")
-                p("Hier sind ihre Daten zur Überprüfung")
-            table {
-                thead {
-                    tr {
-                        th("Rechnungsadresse")
-                        th("Lieferadresse")
-                    }
-                    tr {
-                        td(order.deliveryAddress.company)
-                        td(order.invoiceAddress.company)
-                    }
-                    tr {
-                        td(order.deliveryAddress.street)
-                        td(order.invoiceAddress.street)
-                    }
-                    tr {
-                        td(order.deliveryAddress.zip.toString() + " " + order.deliveryAddress.city)
-                        td(order.invoiceAddress.zip.toString() + " " + order.invoiceAddress.city)
-                    }
-                }
-            }
-        }.render()
-    }
 
     companion object {
         const val host = "smtp.zoho.com"
