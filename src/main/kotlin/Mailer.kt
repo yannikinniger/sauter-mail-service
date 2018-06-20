@@ -59,7 +59,3 @@ class Mailer {
     }
 
 }
-
-fun main(args: Array<String>) {
-    Mailer()
-}
