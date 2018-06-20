@@ -8,7 +8,9 @@ data class Order(
         val invoiceAddress: Address,
         val kvs: Number,
         val dn: String,
-        val quantity: Int
+        val quantity: Int,
+        val price: Int,
+        val articleNumber: String
 ) {
     init {
         if (!dn.toLowerCase().contains("dn")) {
