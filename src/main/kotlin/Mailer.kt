@@ -10,9 +10,6 @@ import java.util.regex.Pattern
  */
 class Mailer {
 
-    private val userName = System.getenv("ZOHO_USER_NAME") ?: ""
-    private val password = System.getenv("ZOHO_PASSWORD") ?: ""
-
     fun sendEmail(recipient: String, subject: String, order: Order): Boolean {
         if (recipient.isEmailValid()) {
             try {
@@ -53,9 +50,11 @@ class Mailer {
 
 
     companion object {
-        const val host = "smtp.zoho.com"
-        const val port = 465
-        const val sendingAddress = "order@hlk-components.ch"
+        private const val host = "smtp.zoho.com"
+        private const val port = 465
+        private const val sendingAddress = "order@hlk-components.ch"
+        private val userName = System.getenv("ZOHO_USER_NAME") ?: ""
+        private val password = System.getenv("ZOHO_PASSWORD") ?: ""
     }
 
 }
