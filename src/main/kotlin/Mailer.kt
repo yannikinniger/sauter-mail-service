@@ -8,7 +8,10 @@ import java.util.regex.Pattern
 /**
  * @author Yannik Inniger
  */
-class Mailer {
+class Mailer(
+        private val userName: String,
+        private val password: String
+) {
 
     fun sendEmail(recipient: String, subject: String, order: Order): Boolean {
         if (recipient.isEmailValid()) {
@@ -48,13 +51,10 @@ class Mailer {
         }
     }
 
-
     companion object {
         private const val host = "smtp.zoho.com"
         private const val port = 465
         private const val sendingAddress = "order@hlk-components.ch"
-        private val userName = System.getenv("ZOHO_USER_NAME") ?: ""
-        private val password = System.getenv("ZOHO_PASSWORD") ?: ""
     }
 
 }

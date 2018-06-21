@@ -7,9 +7,10 @@ import spark.kotlin.post
 
 val klaxon = Klaxon()
 val logger: Logger = LoggerFactory.getLogger("Server")
-val mailer = Mailer()
 
 fun main(args: Array<String>) {
+
+    val mailer: Mailer = initMailer()
 
     post("/order") {
         val orderJson = request.body()
@@ -34,4 +35,14 @@ fun main(args: Array<String>) {
         return@post response.body()
     }
 
+}
+
+private fun initMailer(): Mailer {
+    val userName = System.getenv("ZOHO_USER_NAME")
+    val password = System.getenv("ZOHO_PASSWORD")
+    if (userName == "" || password == "") {
+        System.err.println("missing arguments")
+        System.exit(1)
+    }
+    return Mailer(userName, password)
 }
