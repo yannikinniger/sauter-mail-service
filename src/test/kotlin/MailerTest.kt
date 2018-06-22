@@ -1,9 +1,7 @@
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.mock
 import domain.Address
 import domain.Order
-import org.junit.Assert.*
+import org.junit.Assert.assertTrue
+import org.junit.Assert.fail
 import org.junit.Test
 
 /**
@@ -11,8 +9,9 @@ import org.junit.Test
  */
 class MailerTest {
 
+    private val mailAddress = System.getenv("ZOHO_USER_NAME")
     private val address = Address("Test AG", null, "Teststrasse", "Test City", 1000)
-    private val order = Order(address, address, 1, "DN10", 1, 1, "article", "test@test.ch")
+    private val order = Order(address, address, 1, "DN10", 1, 1, "article", mailAddress)
 
     @Test
     fun shouldThrowExceptionOnInvalidEmail() {
@@ -22,19 +21,19 @@ class MailerTest {
             val mailAddress = "invalid@mail"
             mailer.sendEmail(mailAddress, "subject", order)
             fail("email address $mailAddress was accepted")
-        } catch (e: IllegalArgumentException ) { /* expected exception */ }
+        } catch (e: IllegalArgumentException) { /* expected exception */ }
 
         try {
             val mailAddress = "invalid.ch"
             mailer.sendEmail(mailAddress, "subject", order)
             fail("email address $mailAddress was accepted")
-        } catch (e: IllegalArgumentException ) { /* expected exception */ }
+        } catch (e: IllegalArgumentException) { /* expected exception */ }
     }
 
     @Test
     fun shouldSendEmailWithoutError() {
         val mailer = initMailer()
-        val mailAddress = System.getenv("ZOHO_USER_NAME")
+        val mailAddress = order.mailAddress
         val result = mailer.sendEmail(mailAddress, "subject", order)
         assertTrue(result)
     }
