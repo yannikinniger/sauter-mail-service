@@ -45,7 +45,7 @@ class Mailer(
             setSmtpPort(port)
             setAuthenticator(DefaultAuthenticator(userName, password))
             isSSLOnConnect = true
-            setFrom(sendingAddress)
+            setFrom(userName)
             setSubject(subject)
             addTo(recipient)
         }
@@ -54,7 +54,6 @@ class Mailer(
     companion object {
         private const val host = "smtp.zoho.com"
         private const val port = 465
-        private const val sendingAddress = "order@hlk-components.ch"
     }
 
 }
