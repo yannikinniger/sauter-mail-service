@@ -27,6 +27,7 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.23.3'
     compile group: 'org.apache.commons', name: 'commons-email', version: '1.5'
     compile 'org.celtric.kotlin:kotlin-html:0.1.4'
     compile "com.sparkjava:spark-kotlin:1.0.0-alpha"
