@@ -1,5 +1,4 @@
-import domain.Address
-import domain.Order
+import builder.Builder
 import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
 import org.junit.Test
@@ -9,13 +8,11 @@ import org.junit.Test
  */
 class MailerTest {
 
-    private val mailAddress = System.getenv("ZOHO_USER_NAME")
-    private val address = Address("Test AG", null, "Teststrasse", "Test City", 1000)
-    private val order = Order(address, address, 1, "DN10", 1, 1, "article", mailAddress)
+    private val order = Builder.buildOrder()
 
     @Test
     fun shouldThrowExceptionOnInvalidEmail() {
-        val mailer = initMailer()
+        val mailer = Builder.buildMailer()
 
         try {
             val mailAddress = "invalid@mail"
@@ -32,7 +29,7 @@ class MailerTest {
 
     @Test
     fun shouldSendEmailWithoutError() {
-        val mailer = initMailer()
+        val mailer = Builder.buildMailer()
         val mailAddress = order.mailAddress
         val result = mailer.sendEmail(mailAddress, "subject", order)
         assertTrue(result)

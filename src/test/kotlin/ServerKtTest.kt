@@ -1,7 +1,7 @@
+import builder.Builder
 import com.beust.klaxon.Klaxon
 import com.despegar.http.client.PostMethod
 import com.despegar.sparkjava.test.SparkServer
-import domain.Address
 import domain.Order
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -17,9 +17,7 @@ val testServer: SparkServer<OrderTestServer> = SparkServer(OrderTestServer::clas
 
 class ServerKtTest {
 
-    private val mailAddress = System.getenv("ZOHO_USER_NAME")
-    private val address = Address("Test AG", null, "Teststrasse", "Test City", 1000)
-    private val order = Order(address, address, 1, "DN10", 1, 1, "article", mailAddress)
+    private val order = Builder.buildOrder()
     private val klaxon = Klaxon()
 
     @Test
