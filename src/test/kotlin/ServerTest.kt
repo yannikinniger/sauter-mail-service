@@ -15,7 +15,7 @@ class OrderTestServer : SparkApplication {
 
 val testServer: SparkServer<OrderTestServer> = SparkServer(OrderTestServer::class.java, 4567)
 
-class ServerKtTest {
+class ServerTest {
 
     private val order = Builder.buildOrder()
     private val klaxon = Klaxon()
