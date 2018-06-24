@@ -24,12 +24,16 @@ fun fillTemplate(order: Order): String {
                 td(order.invoiceAddress.street)
             } +
             tr {
-                td(other = tableStyle) { order.deliveryAddress.zip.toString() + " " + order.deliveryAddress.city } +
-                td(order.invoiceAddress.zip.toString() + " " + order.invoiceAddress.city)
+                td(other = tableStyle) { order.deliveryAddress.zip + " " + order.deliveryAddress.city } +
+                td(order.invoiceAddress.zip + " " + order.invoiceAddress.city)
             }
         } +
         br() +
         h4("Bestellte Produkte") +
+        p("${order.quantity}x Heizungsregler EQJW126F001") +
+        p("${order.quantity}x Aussentemperatur-Fühler EGT301F102") +
+        p("${order.quantity}x Vorlauftemperatur-Fühler EGT311F102") +
+        p("${order.quantity}x Normschema") +
         div("${order.quantity}x ${order.articleNumber}") +
         div("DN: ${order.dn}") +
         div("KVS: ${order.kvs}") +
