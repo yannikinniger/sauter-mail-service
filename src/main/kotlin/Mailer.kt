@@ -1,7 +1,7 @@
 import domain.Order
 import domain.fillTemplate
+import kotlinx.coroutines.experimental.launch
 import org.apache.commons.mail.DefaultAuthenticator
-import org.apache.commons.mail.EmailException
 import org.apache.commons.mail.HtmlEmail
 import java.util.regex.Pattern
 
@@ -15,12 +15,10 @@ class Mailer(
 
     fun sendEmail(recipient: String, subject: String, order: Order): Boolean {
         if (recipient.isEmailValid()) {
-            try {
+            launch {
                 createEmail(recipient, subject)
                         .setHtmlMsg(fillTemplate(order))
                         .send()
-            } catch (e: EmailException) {
-                return false
             }
             return true
         } else {
