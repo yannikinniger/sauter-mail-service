@@ -8,7 +8,7 @@ import java.util.regex.Pattern
 data class Order(
         val deliveryAddress: Address,
         val invoiceAddress: Address,
-        val kvs: Number,
+        val kvs: String,
         val dn: String,
         val quantity: Int,
         val price: Int,
