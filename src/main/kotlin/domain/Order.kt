@@ -14,7 +14,7 @@ data class Order(
         val price: Int,
         val articleNumber: String,
         val mailAddress: String,
-        val sendCopy: Boolean
+        val sendCopy: Boolean = true
 ) {
     init {
         if (!dn.toLowerCase().contains("dn")) {

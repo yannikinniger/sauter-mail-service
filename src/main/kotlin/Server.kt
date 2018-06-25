@@ -1,6 +1,9 @@
 import com.beust.klaxon.Klaxon
 import com.beust.klaxon.KlaxonException
 import domain.Order
+import domain.fillCustomerTemplate
+import domain.fillOrderTemplate
+import spark.kotlin.before
 import spark.kotlin.post
 import java.util.logging.Logger
 
@@ -10,6 +13,9 @@ val logger: Logger = Logger.getLogger("Server")
 fun main(args: Array<String>) {
 
     val mailer: Mailer = initMailer()
+    val orderEmail: String = System.getenv("ORDER_EMAIL") ?: System.getenv("ZOHO_USER_NAME")
+
+    before { response.header("Access-Control-Allow-Origin", "*") }
 
     post("/order") {
         val orderJson = request.body()
@@ -17,7 +23,10 @@ fun main(args: Array<String>) {
             val order = klaxon.parse<Order>(orderJson)
             logger.info("recieved order $order")
             if (order != null) {
-                mailer.sendEmail(order.mailAddress, "Kopie Ihrer Bestellung", order)
+                mailer.sendEmail(orderEmail, "Neue Bestellung bei HLK Components", fillOrderTemplate(order))
+                if (order.sendCopy) {
+                    mailer.sendEmail(order.mailAddress, "Kopie Ihrer Bestellung", fillCustomerTemplate(order))
+                }
             }
             response.status(200)
             response.body(klaxon.toJsonString(order as Any))
@@ -30,6 +39,8 @@ fun main(args: Array<String>) {
             logger.info(e.message)
             response.status(400)
             response.body(e.message)
+        } catch (e: Exception) {
+            logger.severe(e.toString())
         }
         return@post response.body()
     }
