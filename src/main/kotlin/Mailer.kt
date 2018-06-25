@@ -1,5 +1,3 @@
-import domain.Order
-import domain.fillTemplate
 import kotlinx.coroutines.experimental.launch
 import org.apache.commons.mail.DefaultAuthenticator
 import org.apache.commons.mail.HtmlEmail
@@ -16,11 +14,11 @@ class Mailer(
 
     val logger: Logger = Logger.getLogger(this.javaClass.toString())
 
-    fun sendEmail(recipient: String, subject: String, order: Order) {
+    fun sendEmail(recipient: String, subject: String, message: String) {
         if (recipient.isEmailValid()) {
             launch {
                 createEmail(recipient, subject)
-                        .setHtmlMsg(fillTemplate(order))
+                        .setHtmlMsg(message)
                         .send()
                 logger.info("successfully sent to $recipient")
             }
@@ -29,16 +27,6 @@ class Mailer(
         }
     }
 
-    private fun String.isEmailValid(): Boolean {
-        return Pattern.compile(
-                "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]|[\\w-]{2,}))@"
-                        + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
-                        + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
-                        + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
-                        + "[0-9]{1,2}|25[0-5]|2[0-4][0-9]))|"
-                        + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$"
-        ).matcher(this).matches()
-    }
 
     private fun createEmail(recipient: String, subject: String): HtmlEmail {
         return HtmlEmail().apply {
@@ -46,6 +34,9 @@ class Mailer(
             setSmtpPort(port)
             setAuthenticator(DefaultAuthenticator(userName, password))
             isSSLOnConnect = true
+            if (replyTo != null) {
+                addReplyTo(replyTo)
+            }
             setFrom(userName)
             setSubject(subject)
             addTo(recipient)
@@ -55,6 +46,24 @@ class Mailer(
     companion object {
         private const val host = "smtp.zoho.com"
         private const val port = 465
+        private val replyTo: String? = System.getenv("REPLY_TO_ADDRESS")
+
+        init {
+            if (replyTo != null && replyTo.isEmailValid()) {
+                throw IllegalArgumentException("invalid reply to address")
+            }
+        }
+
+        private fun String.isEmailValid(): Boolean {
+            return Pattern.compile(
+                    "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]|[\\w-]{2,}))@"
+                            + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                            + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
+                            + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                            + "[0-9]{1,2}|25[0-5]|2[0-4][0-9]))|"
+                            + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$"
+            ).matcher(this).matches()
+        }
     }
 
 }
