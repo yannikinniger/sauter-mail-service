@@ -17,11 +17,11 @@ val testServer: SparkServer<OrderTestServer> = SparkServer(OrderTestServer::clas
 
 class ServerTest {
 
-    private val order = Builder.buildOrder()
     private val klaxon = Klaxon()
 
     @Test
     fun shouldPostOrder() {
+        val order = Builder.buildOrder()
         val orderJson = klaxon.toJsonString(order as Any)
 
         val post: PostMethod = testServer.post("/order", orderJson, false)
