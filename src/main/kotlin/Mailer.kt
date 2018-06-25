@@ -27,7 +27,6 @@ class Mailer(
         }
     }
 
-
     private fun createEmail(recipient: String, subject: String): HtmlEmail {
         return HtmlEmail().apply {
             hostName = host

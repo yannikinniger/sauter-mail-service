@@ -9,8 +9,6 @@ import java.lang.IllegalArgumentException
  */
 internal class OrderTest {
 
-    private val address = Builder.buildAddress()
-
     @Test(expected = IllegalArgumentException::class)
     fun shouldThrowExceptionOnNegativeQuantity() {
         val quantity = -1

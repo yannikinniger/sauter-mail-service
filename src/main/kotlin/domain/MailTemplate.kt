@@ -23,7 +23,6 @@ fun fillOrderTemplate(order: Order): String {
     }.render()
 }
 
-
 private fun fillOrder(order: Order): BlockElement {
     return div {
         h4("Bestellte Produkte") +

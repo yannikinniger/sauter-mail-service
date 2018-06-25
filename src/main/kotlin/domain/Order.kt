@@ -16,6 +16,7 @@ data class Order(
         val mailAddress: String,
         val sendCopy: Boolean = true
 ) {
+
     init {
         if (!dn.toLowerCase().contains("dn")) {
             throw IllegalArgumentException("invalid dn")
