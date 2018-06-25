@@ -3,6 +3,7 @@ import domain.fillTemplate
 import kotlinx.coroutines.experimental.launch
 import org.apache.commons.mail.DefaultAuthenticator
 import org.apache.commons.mail.HtmlEmail
+import java.util.logging.Logger
 import java.util.regex.Pattern
 
 /**
@@ -13,14 +14,16 @@ class Mailer(
         private val password: String
 ) {
 
-    fun sendEmail(recipient: String, subject: String, order: Order): Boolean {
+    val logger: Logger = Logger.getLogger(this.javaClass.toString())
+
+    fun sendEmail(recipient: String, subject: String, order: Order) {
         if (recipient.isEmailValid()) {
             launch {
                 createEmail(recipient, subject)
                         .setHtmlMsg(fillTemplate(order))
                         .send()
+                logger.info("successfully sent to $recipient")
             }
-            return true
         } else {
             throw IllegalArgumentException("invalid email address")
         }

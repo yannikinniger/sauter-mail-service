@@ -1,12 +1,11 @@
 import com.beust.klaxon.Klaxon
 import com.beust.klaxon.KlaxonException
 import domain.Order
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import spark.kotlin.post
+import java.util.logging.Logger
 
 val klaxon = Klaxon()
-val logger: Logger = LoggerFactory.getLogger("Server")
+val logger: Logger = Logger.getLogger("Server")
 
 fun main(args: Array<String>) {
 
@@ -16,21 +15,21 @@ fun main(args: Array<String>) {
         val orderJson = request.body()
         try {
             val order = klaxon.parse<Order>(orderJson)
-            var emailSent = false
+            logger.info("recieved order $order")
             if (order != null) {
-                emailSent = mailer.sendEmail(order.mailAddress, "Kopie Ihrer Bestellung", order)
-                response.status(200)
-                response.body(klaxon.toJsonString(order as Any))
-                response.type("application/json")
+                mailer.sendEmail(order.mailAddress, "Kopie Ihrer Bestellung", order)
             }
-            if (!emailSent) {
-                response.status(400)
-                response.body("could not parse order")
-            }
+            response.status(200)
+            response.body(klaxon.toJsonString(order as Any))
+            response.type("application/json")
         } catch (e: KlaxonException) {
-            logger.warn("unable to parse order $orderJson")
+            logger.warning("unable to parse order $e")
             response.status(400)
             response.body("could not parse order")
+        } catch (e: IllegalArgumentException) {
+            logger.info(e.message)
+            response.status(400)
+            response.body(e.message)
         }
         return@post response.body()
     }
