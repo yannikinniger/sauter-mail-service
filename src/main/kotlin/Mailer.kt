@@ -48,7 +48,7 @@ class Mailer(
         private val replyTo: String? = System.getenv("REPLY_TO_ADDRESS")
 
         init {
-            if (replyTo != null && replyTo.isEmailValid()) {
+            if (replyTo != null && !replyTo.isEmailValid()) {
                 throw IllegalArgumentException("invalid reply to address")
             }
         }
