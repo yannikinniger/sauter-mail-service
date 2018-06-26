@@ -20,6 +20,15 @@ apply plugin: 'kotlin'
 
 sourceCompatibility = 1.8
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'ServerKt'
+    }
+    baseName = 'mail-service'
+    archiveName = "${jar.baseName}.${jar.extension}"
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
 repositories {
     mavenCentral()
     jcenter()

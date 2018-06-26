@@ -1,6 +1,5 @@
 import builder.Builder
 import domain.fillCustomerTemplate
-import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
 import org.junit.Test
 

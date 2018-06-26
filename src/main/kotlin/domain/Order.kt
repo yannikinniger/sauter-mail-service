@@ -1,7 +1,5 @@
 package domain
 
-import java.util.regex.Pattern
-
 /**
  * @author Yannik Inniger
  */
