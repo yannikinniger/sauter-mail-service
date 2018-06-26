@@ -17,7 +17,7 @@ fun main(args: Array<String>) {
 
     before { response.header("Access-Control-Allow-Origin", "*") }
 
-    post("/order") {
+    post("/order/submit") {
         val orderJson = request.body()
         try {
             val order = klaxon.parse<Order>(orderJson)

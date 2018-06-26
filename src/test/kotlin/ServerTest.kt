@@ -24,7 +24,7 @@ class ServerTest {
         val order = Builder.buildOrder()
         val orderJson = klaxon.toJsonString(order as Any)
 
-        val post: PostMethod = testServer.post("/order", orderJson, false)
+        val post: PostMethod = testServer.post("/order/submit", orderJson, false)
         val httpResponse = testServer.execute(post)
         assertEquals(httpResponse.code(), 200)
 
