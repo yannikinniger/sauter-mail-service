@@ -7,10 +7,7 @@ import java.util.regex.Pattern
 /**
  * @author Yannik Inniger
  */
-class Mailer(
-        private val userName: String,
-        private val password: String
-) {
+class Mailer {
 
     val logger: Logger = Logger.getLogger(this.javaClass.toString())
 
@@ -33,9 +30,7 @@ class Mailer(
             setSmtpPort(port)
             setAuthenticator(DefaultAuthenticator(userName, password))
             isSSLOnConnect = true
-            if (replyTo != null) {
-                addReplyTo(replyTo)
-            }
+            if (replyTo != null) { addReplyTo(replyTo) }
             setFrom(userName)
             setSubject(subject)
             addTo(recipient)
@@ -43,8 +38,13 @@ class Mailer(
     }
 
     companion object {
-        private const val host = "smtp.zoho.com"
-        private const val port = 465
+        private val host: String = System.getenv("SMTP_HOST")
+                ?: throw IllegalStateException("SMTP_HOST is not specified")
+        private val port: Int = System.getenv("SMTP_PORT")?.toInt() ?: 465
+        val userName = System.getenv("SMTP_USER_NAME")
+                ?: throw IllegalStateException("SMTP_USER_NAME is not specified")
+        private val password = System.getenv("SMTP_PASSWORD")
+                ?: throw IllegalStateException("SMTP_PASSWORD is not specified")
         private val replyTo: String? = System.getenv("REPLY_TO_ADDRESS")
 
         init {
