@@ -36,6 +36,7 @@ class Mailer {
             setFrom(userName)
             setSubject(subject)
             addTo(recipient)
+            setCharset("utf-8")
         }
     }
 
