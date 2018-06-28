@@ -1,8 +1,6 @@
 import com.beust.klaxon.Klaxon
 import com.beust.klaxon.KlaxonException
-import domain.Order
-import domain.fillCustomerTemplate
-import domain.fillOrderTemplate
+import domain.*
 import spark.kotlin.before
 import spark.kotlin.post
 import java.util.logging.Logger
@@ -24,9 +22,9 @@ fun main(args: Array<String>) {
             val order = klaxon.parse<Order>(orderJson)
             logger.info("recieved order $order")
             if (order != null) {
-                mailer.sendEmail(orderEmail, "Neue Bestellung bei HLK Components", fillOrderTemplate(order))
+                mailer.sendEmail(orderEmail, "Neue Bestellung bei HLK Components", order, vendorTemplate)
                 if (order.sendCopy) {
-                    mailer.sendEmail(order.mailAddress, "Kopie Ihrer Bestellung", fillCustomerTemplate(order))
+                    mailer.sendEmail(order.mailAddress, "Kopie Ihrer Bestellung", order, customerTemplate)
                 }
             }
             response.status(200)

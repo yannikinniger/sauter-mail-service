@@ -1,3 +1,5 @@
+import domain.Order
+import domain.MailTemplate
 import kotlinx.coroutines.experimental.launch
 import org.apache.commons.mail.DefaultAuthenticator
 import org.apache.commons.mail.HtmlEmail
@@ -11,11 +13,11 @@ class Mailer {
 
     val logger: Logger = Logger.getLogger(this.javaClass.toString())
 
-    fun sendEmail(recipient: String, subject: String, message: String) {
+    fun sendEmail(recipient: String, subject: String, order: Order, mailTemplate: MailTemplate) {
         if (recipient.isEmailValid()) {
             launch {
                 createEmail(recipient, subject)
-                        .setHtmlMsg(message)
+                        .setHtmlMsg(mailTemplate(order))
                         .send()
                 logger.info("successfully sent to $recipient")
             }
