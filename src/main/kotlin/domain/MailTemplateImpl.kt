@@ -41,7 +41,9 @@ private fun fillOrder(order: Order): BlockElement {
 private fun fillAddresses(order: Order): BlockElement {
     val tableStyle = mapOf("style" to "padding-left: 20px")
     return div {
-        if (order.project != null) p("Projekt: ${order.project}") else span {} +
+        if (order.project != null) {
+            p("Projekt: ${order.project}")
+        } else { span {} } +
                 table {
                     tr {
                         th("Rechnungsadresse") +
