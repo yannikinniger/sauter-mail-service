@@ -40,30 +40,25 @@ private fun fillOrder(order: Order): BlockElement {
 
 private fun fillAddresses(order: Order): BlockElement {
     val tableStyle = mapOf("style" to "padding-left: 20px")
-    return table {
-        tr {
-            th("Rechnungsadresse") +
-                    th(other = tableStyle) { "Lieferadresse" }
-        } +
-                tr {
-                    td(order.deliveryAddress.company) +
-                            td(other = tableStyle) { order.invoiceAddress.company }
-                } +
-                if (order.deliveryAddress.project != null || order.invoiceAddress.project != null) {
+    return div {
+        if (order.project != null) p("Projekt: ${order.project}") else span {} +
+                table {
                     tr {
-                        td(order.deliveryAddress.project ?: "") +
-                                td(other = tableStyle) { order.invoiceAddress.project ?: "" }
-                    }
-                } else {
-                    span { }
-                } +
-                tr {
-                    td(order.deliveryAddress.street) +
-                            td(other = tableStyle) { order.invoiceAddress.street }
-                } +
-                tr {
-                    td(order.deliveryAddress.zip + " " + order.deliveryAddress.city) +
-                            td(other = tableStyle) { order.invoiceAddress.zip + " " + order.invoiceAddress.city }
+                        th("Rechnungsadresse") +
+                                th(other = tableStyle) { "Lieferadresse" }
+                    } +
+                            tr {
+                                td(order.deliveryAddress.company) +
+                                        td(other = tableStyle) { order.invoiceAddress.company }
+                            } +
+                            tr {
+                                td(order.deliveryAddress.street) +
+                                        td(other = tableStyle) { order.invoiceAddress.street }
+                            } +
+                            tr {
+                                td(order.deliveryAddress.zip + " " + order.deliveryAddress.city) +
+                                        td(other = tableStyle) { order.invoiceAddress.zip + " " + order.invoiceAddress.city }
+                            }
                 }
     }
 }

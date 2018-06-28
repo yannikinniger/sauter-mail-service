@@ -4,6 +4,7 @@ package domain
  * @author Yannik Inniger
  */
 data class Order(
+        val project: String? = null,
         val deliveryAddress: Address,
         val invoiceAddress: Address,
         val kvs: String,
