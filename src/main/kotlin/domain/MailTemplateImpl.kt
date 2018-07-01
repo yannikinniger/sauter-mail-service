@@ -30,7 +30,6 @@ private fun fillOrder(order: Order): BlockElement {
                 p("${order.quantity}x Heizungsregler EQJW126F001") +
                 p("${order.quantity}x Aussentemperatur-Fühler EGT301F102") +
                 p("${order.quantity}x Vorlauftemperatur-Fühler EGT311F102") +
-                p("${order.quantity}x Normschema") +
                 div("${order.quantity}x ${order.articleNumber}") +
                 div("DN: ${order.dn}") +
                 div("KVS: ${order.kvs}") +
