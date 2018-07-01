@@ -44,6 +44,9 @@ private fun fillAddresses(order: Order): BlockElement {
         if (order.project != null) {
             p("Projekt: ${order.project}")
         } else { span {} } +
+                if (order.reference != null) {
+                    p("Referenz: ${order.reference}")
+                } else { span {} } +
                 table {
                     tr {
                         th("Rechnungsadresse") +

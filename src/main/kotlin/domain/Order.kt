@@ -5,6 +5,7 @@ package domain
  */
 data class Order(
         val project: String? = null,
+        val reference: String? = null,
         val deliveryAddress: Address,
         val invoiceAddress: Address,
         val kvs: String,
