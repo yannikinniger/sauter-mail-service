@@ -15,11 +15,12 @@ class Builder {
             return Address(company, project, street, city, zip)
         }
 
-        fun buildOrder(deliveryAddress: Address = buildAddress(), invoiceAddress: Address = buildAddress(),
+        fun buildOrder(project: String? = "project", reference: String? = "reference",
+                       deliveryAddress: Address = buildAddress(), invoiceAddress: Address = buildAddress(),
                        kvs: String = "1.6", dn: String = "DN15", quantity: Int = 1, price: Int = 1,
                        articleNumber: String = "test", mailAddress: String = Mailer.userName
-                       ): Order {
-            return Order(deliveryAddress, invoiceAddress, kvs, dn, quantity, price, articleNumber, mailAddress)
+        ): Order {
+            return Order(project, reference, deliveryAddress, invoiceAddress, kvs, dn, quantity, price, articleNumber, mailAddress)
         }
 
         fun buildMailer(): Mailer {

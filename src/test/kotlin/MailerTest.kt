@@ -1,5 +1,5 @@
 import builder.Builder
-import domain.fillCustomerTemplate
+import domain.customerTemplate
 import org.junit.Assert.fail
 import org.junit.Test
 
@@ -16,22 +16,24 @@ class MailerTest {
 
         try {
             val mailAddress = "invalid@mail"
-            mailer.sendEmail(mailAddress, "subject", fillCustomerTemplate(order))
+            mailer.sendEmail(mailAddress, "subject", order, customerTemplate)
             fail("email address $mailAddress was accepted")
-        } catch (e: IllegalArgumentException) { /* expected exception */ }
+        } catch (e: IllegalArgumentException) { /* expected exception */
+        }
 
         try {
             val mailAddress = "invalid.ch"
-            mailer.sendEmail(mailAddress, "subject", fillCustomerTemplate(order))
+            mailer.sendEmail(mailAddress, "subject", order, customerTemplate)
             fail("email address $mailAddress was accepted")
-        } catch (e: IllegalArgumentException) { /* expected exception */ }
+        } catch (e: IllegalArgumentException) { /* expected exception */
+        }
     }
 
     @Test
     fun shouldSendEmailWithoutError() {
         val mailer = Builder.buildMailer()
         val mailAddress = order.mailAddress
-        mailer.sendEmail(mailAddress, "subject", fillCustomerTemplate(order))
+        mailer.sendEmail(mailAddress, "subject", order, customerTemplate)
     }
 
 }
